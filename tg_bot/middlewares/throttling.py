@@ -5,6 +5,7 @@ from aiogram.types import TelegramObject, User, Message, CallbackQuery
 from cachetools import TTLCache
 
 from tg_bot.data.config import RATE_LIMIT
+from tg_bot.data.database import get_messages
 
 
 class ThrottlingMiddleware(BaseMiddleware):
@@ -22,7 +23,7 @@ class ThrottlingMiddleware(BaseMiddleware):
 
         if user is not None:
             if user.id in self.cache:
-                return await event.answer(text='⚠ Не так быстро!')
+                return await event.answer(text=get_messages()['7'])
 
             self.cache[user.id] = None
 
@@ -44,7 +45,7 @@ class ThrottlingCallbackMiddleware(BaseMiddleware):
 
         if user is not None:
             if user.id in self.cache:
-                return await event.answer(text='⚠ Не так быстро!', show_alert=True)
+                return await event.answer(text=get_messages()['7'], show_alert=True)
 
             self.cache[user.id] = None
 

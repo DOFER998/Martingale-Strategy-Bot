@@ -13,7 +13,7 @@ def add_user(user_id, user_name, nick_name):
             "telegram_id": str(user_id),
             "user_name": str(user_name),
             "nick_name": str(nick_name),
-            "info": []
+            "info": None
         })
     else:
         users.update_one({"_id": str(user_id)}, {"$set": {"nick_name": nick_name}})
@@ -40,6 +40,12 @@ def get_pass():
     return passwd['pass']
 
 
+def get_info_user(user_id):
+    info = users.find_one({"_id": str(user_id)})
+    return info
+
+
+
 # edit info
 def edit_message_db(_id, message):
     config.update_one({"_id": "config"}, {"$set": {f"messages.{_id}": message}})
@@ -51,3 +57,7 @@ def edit_button_db(_id, message):
 
 def edit_pass_db(message):
     config.update_one({"_id": "config"}, {"$set": {"pass": message}})
+
+
+def edit_info_user(user_id, info):
+    users.update_one({"_id": str(user_id)}, {"$set": {"info": info}})

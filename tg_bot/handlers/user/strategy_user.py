@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
-from tg_bot.data.database import get_messages
+from tg_bot.data.database import get_messages, edit_info_user, get_info_user
 from tg_bot.keyboards.user.inline import choice_user_stake
 from tg_bot.middlewares.update_db import AddOrUpdateCallbackMiddleware, AddOrUpdateMiddleware
 from tg_bot.misc.states import Bid
@@ -27,9 +27,10 @@ async def start_strategy(message: Message, state: FSMContext):
 async def winning(call: CallbackQuery):
     data = call.data.split(":")
     int = random_number()
+    info = get_info_user(user_id=call.message.chat.id)
     await call.message.answer(
-        text=get_messages()['4'].format(user=call.message.chat.first_name, coeff=float(int), int=float(data[1])),
-        reply_markup=choice_user_stake(amount=data[1], coeff=int))
+        text=get_messages()['4'].format(user=call.message.chat.first_name, coeff=float(int), int=float(info['info'])),
+        reply_markup=choice_user_stake(amount=data[1], coeff=info['info']))
     await call.answer()
 
 
@@ -60,4 +61,5 @@ async def random_coefficient(message: Message, state: FSMContext):
     await message.answer(
         text=get_messages()['6'].format(user=message.from_user.first_name, coeff=float(int), int=float(message.text)),
         reply_markup=choice_user_stake(amount=message.text, coeff=int))
+    edit_info_user(user_id=message.from_user.id, info=float(message.text))
     await state.clear()
