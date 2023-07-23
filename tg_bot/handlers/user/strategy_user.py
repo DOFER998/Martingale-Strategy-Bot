@@ -30,7 +30,7 @@ async def winning(call: CallbackQuery):
     info = get_info_user(user_id=call.message.chat.id)
     await call.message.answer(
         text=get_messages()['4'].format(user=call.message.chat.first_name, coeff=float(int), int=float(info['info'])),
-        reply_markup=choice_user_stake(amount=data[1], coeff=info['info']))
+        reply_markup=choice_user_stake(amount=info['info'], coeff=float(int)))
     await call.answer()
 
 
@@ -40,7 +40,7 @@ async def losing(call: CallbackQuery):
     await call.message.answer(
         text=get_messages()['5'].format(user=call.message.chat.first_name, coeff=float(data[2]),
                                         int=float(data[1]) * 2),
-        reply_markup=choice_user_stake(amount=int(data[1]) * 2, coeff=data[2]))
+        reply_markup=choice_user_stake(amount=float(data[1]) * 2, coeff=data[2]))
     await call.answer()
 
 
