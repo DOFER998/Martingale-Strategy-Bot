@@ -6,4 +6,4 @@ env.read_env()
 TOKEN = env.str("TOKEN")
 ADMIN = env.list("ADMIN")
 
-RATE_LIMIT = 0.7
+RATE_LIMIT = 0.8
