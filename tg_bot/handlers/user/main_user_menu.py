@@ -24,7 +24,7 @@ async def cmd_user_start(message: Message, state: FSMContext):
 @router.message(F.text, Password.password)
 async def input_password(message: Message, state: FSMContext):
     if message.text != get_password():
-        await message.answer(text='❌ Ошибка, неверный пароль, попробуйте еще раз!')
+        await message.answer(text=get_messages()['8'])
         return
 
     await message.answer(text=get_messages()['2'].format(user=message.from_user.first_name),

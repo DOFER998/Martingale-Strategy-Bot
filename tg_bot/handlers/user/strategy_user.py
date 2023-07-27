@@ -54,7 +54,7 @@ async def losing(call: CallbackQuery, state: FSMContext):
 @router.message(F.text, Bid.bid)
 async def random_coefficient(message: Message, state: FSMContext):
     if not is_number(str=message.text):
-        await message.answer(text='❌ Ошибка, нужно ввести число!')
+        await message.answer(text=get_messages()['9'])
         return
 
     int = random_number()
