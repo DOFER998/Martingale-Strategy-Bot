@@ -2,5 +2,5 @@ import random
 
 
 def random_number():
-    number = random.uniform(2.50, 3.00)
+    number = random.uniform(1.50, 2.00)
     return number
