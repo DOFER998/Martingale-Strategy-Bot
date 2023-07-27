@@ -2,7 +2,7 @@ from aiogram import Router, F
 from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 
-from tg_bot.data.database import get_messages, edit_info_user, get_info_user
+from tg_bot.data.database import get_messages, edit_info_user, get_info_user, get_buttons
 from tg_bot.keyboards.user.inline import choice_user_stake
 from tg_bot.middlewares.update_db import AddOrUpdateCallbackMiddleware, AddOrUpdateMiddleware
 from tg_bot.misc.states import Bid
@@ -15,7 +15,7 @@ router.message.middleware(AddOrUpdateMiddleware())
 router.callback_query.outer_middleware(AddOrUpdateCallbackMiddleware())
 
 
-@router.message(F.text == '💰 Начать стратегию')
+@router.message(F.text == get_buttons()['4'])
 async def start_strategy(message: Message, state: FSMContext):
     await message.delete()
     await message.answer(text=get_messages()['3'].format(user=message.from_user.first_name),
