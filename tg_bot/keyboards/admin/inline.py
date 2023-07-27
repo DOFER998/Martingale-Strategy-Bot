@@ -13,7 +13,7 @@ def message_page(page: int = 1):
                                         [
                                             InlineKeyboardButton(text="⬅ Назад",
                                                                  callback_data=f"negative_message:{page - 1}"),
-                                            InlineKeyboardButton(text=f"| {page}/7 |",
+                                            InlineKeyboardButton(text=f"| {page}/9 |",
                                                                  callback_data="dont_click_me"),
                                             InlineKeyboardButton(text="Вперёд ➡",
                                                                  callback_data=f"plus_message:{page + 1}")
