@@ -39,7 +39,7 @@ async def losing(call: CallbackQuery):
     data = call.data.split(":")
     await call.message.answer(
         text=get_messages()['5'].format(user=call.message.chat.first_name, coeff=float(data[2]),
-                                        int=float(data[1]) * 1.5),
+                                        int=float(f'{float(data[1]) * 1.5:.2f}')),
         reply_markup=choice_user_stake(amount=float(data[1]) * 1.5, coeff=data[2]))
     await call.answer()
 
