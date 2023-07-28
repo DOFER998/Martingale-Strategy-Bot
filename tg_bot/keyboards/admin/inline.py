@@ -49,3 +49,14 @@ def pass_edit():
                                     ])
 
     return keyboard
+
+
+def coeff_edit():
+    keyboard = InlineKeyboardMarkup(row_width=2,
+                                    inline_keyboard=[
+                                        [
+                                            InlineKeyboardButton(text="✏ Редактировать", callback_data="edit_coeff"),
+                                        ],
+                                    ])
+
+    return keyboard

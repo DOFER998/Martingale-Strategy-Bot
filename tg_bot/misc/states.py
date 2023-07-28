@@ -19,3 +19,7 @@ class EditButton(StatesGroup):
 
 class EditPass(StatesGroup):
     edit_pass = State()
+
+
+class EditCoeff(StatesGroup):
+    edit_coeff = State()

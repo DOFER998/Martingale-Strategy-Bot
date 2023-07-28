@@ -11,6 +11,7 @@ def main_menu_admin():
             ],
             [
                 KeyboardButton(text='💬 Сообщения'),
+                KeyboardButton(text='📊 Коэффициент'),
                 KeyboardButton(text='📌 Кнопки')
             ]
         ]

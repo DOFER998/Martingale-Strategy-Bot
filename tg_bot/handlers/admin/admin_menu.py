@@ -3,13 +3,14 @@ from aiogram.types import Message, CallbackQuery
 from aiogram.filters import Command
 from aiogram.fsm.context import FSMContext
 
-from tg_bot.data.database import get_password, get_messages, edit_message_db, edit_button_db, edit_pass_db, get_pass
+from tg_bot.data.database import get_password, get_messages, edit_message_db, edit_button_db, edit_pass_db, get_pass, \
+    get_coeff, edit_coeff
 from tg_bot.data.config import ADMIN
 from tg_bot.data.loader import bot
 from tg_bot.filters.is_admin import IsAdmin
-from tg_bot.keyboards.admin.inline import message_page, buttons_edit, pass_edit
+from tg_bot.keyboards.admin.inline import message_page, buttons_edit, pass_edit, coeff_edit
 from tg_bot.keyboards.admin.replay import main_menu_admin
-from tg_bot.misc.states import EditMessage, EditButton, EditPass
+from tg_bot.misc.states import EditMessage, EditButton, EditPass, EditCoeff
 
 router = Router(name="User main router")
 router.message.filter(F.chat.type == "private")
@@ -112,5 +113,31 @@ async def edit_pass_next(message: Message, state: FSMContext):
     data = await state.get_data()
     edit_pass_db(message=answer)
     await bot.edit_message_text(chat_id=message.chat.id, message_id=data['edit'],
-                                text=f'<b>🔒 Пароль</b>\n\n<tg-spoiler>{get_pass()}</tg-spoiler>', reply_markup=pass_edit())
+                                text=f'<b>🔒 Пароль</b>\n\n<tg-spoiler>{get_pass()}</tg-spoiler>',
+                                reply_markup=pass_edit())
+    await state.clear()
+
+
+@router.message(IsAdmin(user=ADMIN), F.text == '📊 Коэффициент')
+async def admin_menu_coeff(message: Message):
+    coeff = get_coeff()
+    await message.answer(text=f'<b>📊 Коэффициент</b>\n\n{coeff["0"]}->{coeff["1"]}', reply_markup=coeff_edit())
+
+
+@router.callback_query(F.data == 'edit_coeff')
+async def edit_pass(call: CallbackQuery, state: FSMContext):
+    await call.message.edit_text(text='✏ Введите текст для замены\n\nФормат ввода -> <b>1.35:5.00</b>')
+    await state.set_state(EditCoeff.edit_coeff)
+    await state.update_data(edit=call.message.message_id)
+
+
+@router.message(F.text, EditCoeff.edit_coeff)
+async def edit_pass_next(message: Message, state: FSMContext):
+    answer = message.text
+    await message.delete()
+    data = await state.get_data()
+    edit_coeff(coeff=answer)
+    coeff = get_coeff()
+    await bot.edit_message_text(chat_id=message.chat.id, message_id=data['edit'],
+                                text=f'<b>📊 Коэффициент</b>\n\n{coeff["0"]}->{coeff["1"]}', reply_markup=coeff_edit())
     await state.clear()

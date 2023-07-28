@@ -45,6 +45,10 @@ def get_info_user(user_id):
     return info
 
 
+def get_coeff():
+    info = config.find_one({"_id": "config"})
+    return info['coeff']
+
 
 # edit info
 def edit_message_db(_id, message):
@@ -61,3 +65,9 @@ def edit_pass_db(message):
 
 def edit_info_user(user_id, info):
     users.update_one({"_id": str(user_id)}, {"$set": {"info": info}})
+
+
+def edit_coeff(coeff):
+    info = coeff.split(":")
+    config.update_one({"_id": "config"}, {"$set": {"coeff.0": float(info[0])}})
+    config.update_one({"_id": "config"}, {"$set": {"coeff.1": float(info[1])}})
