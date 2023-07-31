@@ -31,7 +31,7 @@ async def winning(call: CallbackQuery):
     info = get_info_user(user_id=call.message.chat.id)
     await call.message.answer(
         text=get_messages()['4'].format(user=call.message.chat.first_name, coeff=float(int), int=math.trunc(info['info']),
-                                        final=math.trunc(float(int) * float(info["info"]))),
+                                        final=math.trunc(float(int) * float(info["info"]))).replace(',', '.'),
         reply_markup=choice_user_stake(amount=info['info'], coeff=float(int)))
     await call.answer()
 
@@ -41,7 +41,7 @@ async def losing(call: CallbackQuery):
     data = call.data.split(":")
     await call.message.answer(text=get_messages()['5'].format(user=call.message.chat.first_name, coeff=float(data[2]),
                                                               int=math.trunc(float(data[1]) * 1.5),
-                                                              final=math.trunc(float(data[2]) * float(data[1]))),
+                                                              final=math.trunc(float(data[2]) * float(data[1]))).replace(',', '.'),
                               reply_markup=choice_user_stake(amount=float(data[1]) * 1.5, coeff=data[2]))
     await call.answer()
 
@@ -62,7 +62,7 @@ async def random_coefficient(message: Message, state: FSMContext):
     int = random_number()
     await message.answer(
         text=get_messages()['6'].format(user=message.from_user.first_name, coeff=float(int), int=math.trunc(float(message.text)),
-                                        final=math.trunc(float(int) * float(message.text))),
+                                        final=math.trunc(float(int) * float(message.text))).replace(',', '.'),
         reply_markup=choice_user_stake(amount=message.text, coeff=int))
     edit_info_user(user_id=message.from_user.id, info=float(message.text))
     await state.clear()
