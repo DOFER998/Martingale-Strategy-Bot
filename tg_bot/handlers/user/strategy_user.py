@@ -26,7 +26,6 @@ async def start_strategy(message: Message, state: FSMContext):
 
 @router.callback_query(F.data.startswith('winning:'))
 async def winning(call: CallbackQuery):
-    data = call.data.split(":")
     int = random_number()
     info = get_info_user(user_id=call.message.chat.id)
     await call.message.answer(
