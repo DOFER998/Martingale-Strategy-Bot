@@ -59,10 +59,10 @@ async def random_coefficient(message: Message, state: FSMContext):
     if not is_number(str=message.text):
         await message.answer(text=get_messages()['9'])
         return
-    elif int(message.text) < 1020:
+    elif int(message.text) < 530:
         await message.answer(text=get_messages()['10'])
         return
-    elif int(message.text) > 502000:
+    elif int(message.text) > 530000:
         await message.answer(text=get_messages()['11'])
         return
 
