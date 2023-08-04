@@ -39,10 +39,11 @@ async def winning(call: CallbackQuery):
 @router.callback_query(F.data.startswith('losing:'))
 async def losing(call: CallbackQuery):
     data = call.data.split(":")
+    mat = math.trunc(float(data[1]) * 1.5)
     await call.message.answer(text=get_messages()['5'].format(user=call.message.chat.first_name, coeff=float(data[2]),
-                                                              int=math.trunc(float(data[1]) * 1.5),
+                                                              int=mat,
                                                               final=math.trunc(
-                                                                  float(data[2]) * float(data[1]))).replace(',', '.'),
+                                                                  float(data[2]) * mat)).replace(',', '.'),
                               reply_markup=choice_user_stake(amount=float(data[1]) * 1.5, coeff=data[2]))
     await call.answer()
 
